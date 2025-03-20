@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationViewModel", "Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationView", "PresentationView\PresentationView.csproj", "{27A6D98E-1F62-47CA-9845-3AC0780AD3E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6003E2EE-B1CD-4635-B138-F6CD5DE8E791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{27A6D98E-1F62-47CA-9845-3AC0780AD3E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27A6D98E-1F62-47CA-9845-3AC0780AD3E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27A6D98E-1F62-47CA-9845-3AC0780AD3E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6003E2EE-B1CD-4635-B138-F6CD5DE8E791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6003E2EE-B1CD-4635-B138-F6CD5DE8E791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6003E2EE-B1CD-4635-B138-F6CD5DE8E791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6003E2EE-B1CD-4635-B138-F6CD5DE8E791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
