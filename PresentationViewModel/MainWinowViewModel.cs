@@ -1,4 +1,4 @@
-﻿namespace PresentationViewModel
+﻿namespace Presentation.ViewModel
 {
     public class MainWinowViewModel
     {
