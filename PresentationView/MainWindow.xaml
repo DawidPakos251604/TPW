@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PresentationView"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Grid Background="#047b48" Cursor="Arrow">
+        
     </Grid>
 </Window>

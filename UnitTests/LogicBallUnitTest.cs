@@ -4,7 +4,7 @@ namespace UnitTests
    
 {
     [TestClass]
-    public sealed class BallUnitTest
+    public sealed class LogicBallUnitTest
     {
         [TestMethod]
     public void MoveTestMethod()
