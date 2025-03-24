@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Logic\Logic.csproj" />
+	  <ProjectReference Include="..\Data\Data.csproj" />
+	  <ProjectReference Include="..\Logic\Logic.csproj" />
+	  <ProjectReference Include="..\PresentationModel\PresentationModel.csproj" />
   </ItemGroup>
 	
 </Project>
