@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-
+﻿
 namespace Data
 {
     internal class Ball : IBall

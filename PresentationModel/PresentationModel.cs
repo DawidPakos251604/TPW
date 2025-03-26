@@ -3,14 +3,11 @@ using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 
-using Presentation.Model;
 using UnderneathLayerAPI = Logic.LogicAbstractAPI;
 
 namespace Presentation.Model
 {
-    /// <summary>
     /// Class Model - implements the <see cref="ModelAbstractApi" />
-    /// </summary>
     internal class ModelImplementation : ModelAbstractApi
     {
         internal ModelImplementation() : this(null)

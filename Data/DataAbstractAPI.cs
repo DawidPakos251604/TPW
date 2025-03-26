@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Data
 {
     public abstract class DataAbstractAPI : IDisposable
@@ -38,14 +33,10 @@ namespace Data
 
     public interface IVector
     {
-        /// <summary>
         /// The X component of the vector.
-        /// </summary>
         double x { get; init; }
 
-        /// <summary>
         /// The y component of the vector.
-        /// </summary>
         double y { get; init; }
     }
 
