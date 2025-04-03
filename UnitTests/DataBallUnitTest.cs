@@ -10,6 +10,7 @@ namespace UnitTests
         {
             Vector testinVector = new Vector(0.0, 0.0);
             Ball newInstance = new(testinVector, testinVector);
+            Assert.IsNotNull(newInstance);
         }
 
         [TestMethod]
