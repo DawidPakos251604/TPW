@@ -52,8 +52,8 @@ namespace Presentation.ViewModel
             if (Disposed)
                 throw new ObjectDisposedException(nameof(MainWindowViewModel));
             ModelLayer.Start(numberOfBalls);
-            Observer.Dispose(); // zakończ poprzednie obserwowanie
-            Observer = ModelLayer.Subscribe<ModelIBall>(x => Balls.Add(x)); // rozpocznij nowe
+            Observer.Dispose(); 
+            Observer = ModelLayer.Subscribe<ModelIBall>(x => Balls.Add(x)); 
         }
 
         private void StartFromCommand()

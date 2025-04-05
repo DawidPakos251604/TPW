@@ -14,7 +14,7 @@ namespace Logic
 
         #region Layer API
 
-        public static readonly Dimensions GetDimensions = new(10.0, 10.0, 10.0);
+        public static readonly Dimensions GetDimensions = new(50.0, 500.0, 500.0);
 
         public abstract void Start(int numberOfBalls, Action<IPosition, IBall> upperLayerHandler);
 
