@@ -9,8 +9,13 @@
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    <Grid Background="White" Cursor="Arrow">
-        <Border BorderThickness="4" BorderBrush="Green" Height="420" Width="400">
+    <Grid Background="#2f5830" Cursor="Arrow">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="4" BorderBrush="#58342f" Height="420" Width="400" Grid.Row="0">
             <ItemsControl ItemsSource="{Binding Balls}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -19,7 +24,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Ellipse Width= "{Binding Diameter}" Height="{Binding Diameter}" Fill="Blue" />
+                        <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Fill="#f0eee3" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemContainerStyle>
@@ -30,5 +35,12 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Border>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <TextBox Width="50" Text="{Binding BallCount, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+            <Button Content="Start" Command="{Binding StartCommand}" />
+        </StackPanel>
+
+
     </Grid>
 </Window>

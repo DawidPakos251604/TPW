@@ -1,5 +1,7 @@
 ﻿using Presentation.Model;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 using ModelIBall = Presentation.Model.IBall;
 
@@ -7,32 +9,60 @@ namespace Presentation.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase, IDisposable
     {
-        #region ctor
+        #region Fields
 
-        public MainWindowViewModel() : this(null)
-        { }
+        private IDisposable Observer = null;
+        private ModelAbstractApi ModelLayer;
+        private bool Disposed = false;
+
+        #endregion Fields
+
+        #region Constructor
+
+        public MainWindowViewModel() : this(null) { }
 
         internal MainWindowViewModel(ModelAbstractApi modelLayerAPI)
         {
             ModelLayer = modelLayerAPI == null ? ModelAbstractApi.CreateModel() : modelLayerAPI;
             Observer = ModelLayer.Subscribe<ModelIBall>(x => Balls.Add(x));
+            StartCommand = new RelayCommand(StartFromCommand);
         }
 
-        #endregion ctor
+        #endregion Constructor
 
-        #region public API
+        #region Public API
+
+        public ObservableCollection<ModelIBall> Balls { get; } = new ObservableCollection<ModelIBall>();
+
+        private int _ballCount = 5;
+        public int BallCount
+        {
+            get => _ballCount;
+            set
+            {
+                _ballCount = value;
+                RaisePropertyChanged(nameof(BallCount));
+            }
+        }
+
+        public ICommand StartCommand { get; }
 
         public void Start(int numberOfBalls)
         {
             if (Disposed)
                 throw new ObjectDisposedException(nameof(MainWindowViewModel));
             ModelLayer.Start(numberOfBalls);
-            Observer.Dispose();
+            Observer.Dispose(); // zakończ poprzednie obserwowanie
+            Observer = ModelLayer.Subscribe<ModelIBall>(x => Balls.Add(x)); // rozpocznij nowe
         }
 
-        public ObservableCollection<ModelIBall> Balls { get; } = new ObservableCollection<ModelIBall>();
+        private void StartFromCommand()
+        {
+            Balls.Clear(); // wyczyść poprzednie kulki
+            Start(BallCount);
+        }
 
-        #endregion public API
+        #endregion Public API
 
         #region IDisposable
 
@@ -43,12 +73,10 @@ namespace Presentation.ViewModel
                 if (disposing)
                 {
                     Balls.Clear();
-                    Observer.Dispose();
+                    Observer?.Dispose();
                     ModelLayer.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
                 Disposed = true;
             }
         }
@@ -57,18 +85,10 @@ namespace Presentation.ViewModel
         {
             if (Disposed)
                 throw new ObjectDisposedException(nameof(MainWindowViewModel));
-            Dispose(disposing: true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         #endregion IDisposable
-
-        #region private
-
-        private IDisposable Observer = null;
-        private ModelAbstractApi ModelLayer;
-        private bool Disposed = false;
-
-        #endregion private
     }
 }
