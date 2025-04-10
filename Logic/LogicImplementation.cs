@@ -7,6 +7,7 @@ namespace Logic
 {
     internal class LogicImplementation : LogicAbstractAPI
     {
+
         #region ctor
 
         public LogicImplementation() : this(null)
@@ -35,7 +36,9 @@ namespace Logic
                 throw new ObjectDisposedException(nameof(LogicImplementation));
             if (upperLayerHandler == null)
                 throw new ArgumentNullException(nameof(upperLayerHandler));
-            layerBellow.Start(numberOfBalls, (startingPosition, databall) => upperLayerHandler(new Position(startingPosition.x, startingPosition.x), new Ball(databall)));
+            layerBellow.Start(numberOfBalls, (startingPosition, databall) => upperLayerHandler(new Position(startingPosition.x, startingPosition.y), new Ball(databall, 400 , 420, 50.0)));
+
+
         }
 
         #endregion BusinessLogicAbstractAPI
@@ -57,5 +60,6 @@ namespace Logic
         }
 
         #endregion TestingInfrastructure
+
     }
 }

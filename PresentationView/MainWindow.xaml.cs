@@ -20,12 +20,19 @@ namespace PresentationView
     {
         public MainWindow()
         {
-            Random random = new Random();
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Random random = new Random();
             MainWindowViewModel viewModel = (MainWindowViewModel)DataContext;
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            viewModel.Start(random.Next(5, 10));
+
+            double tableWidth = TableBorder.ActualWidth;
+            double tableHeight = TableBorder.ActualHeight;
+
+            viewModel.Start(random.Next(10, 11));
         }
 
         /// <summary>

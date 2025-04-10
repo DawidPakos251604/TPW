@@ -36,5 +36,6 @@ namespace Presentation.Model
         private static Lazy<ModelAbstractApi> modelInstance = new Lazy<ModelAbstractApi>(() => new ModelImplementation());
 
         #endregion private
+
     }
 }

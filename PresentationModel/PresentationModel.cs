@@ -10,6 +10,7 @@ namespace Presentation.Model
     /// Class Model - implements the <see cref="ModelAbstractApi" />
     internal class ModelImplementation : ModelAbstractApi
     {
+
         internal ModelImplementation() : this(null)
         { }
 
@@ -55,7 +56,8 @@ namespace Presentation.Model
 
         private void StartHandler(Logic.IPosition position, Logic.IBall ball)
         {
-            ModelBall newBall = new ModelBall(position.x, position.y, ball) { Diameter = 20.0 };
+            double diameter = 50.0;
+            ModelBall newBall = new ModelBall(position.x, position.y, ball) { Diameter = diameter };
             BallChanged.Invoke(this, new BallChaneEventArgs() { Ball = newBall });
         }
 
