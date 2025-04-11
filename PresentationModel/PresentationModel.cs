@@ -10,6 +10,8 @@ namespace Presentation.Model
     /// Class Model - implements the <see cref="ModelAbstractApi" />
     internal class ModelImplementation : ModelAbstractApi
     {
+        private double diameter;
+
         internal ModelImplementation() : this(null)
         { }
 
@@ -20,6 +22,12 @@ namespace Presentation.Model
         }
 
         #region ModelAbstractApi
+
+        public override void InitializeTableSettings(double width, double height, double diameter)
+        {
+            this.diameter = diameter;
+            layerBellow.InitializeLogicParameters(width, height, diameter);
+        }
 
         public override void Dispose()
         {
@@ -55,7 +63,7 @@ namespace Presentation.Model
 
         private void StartHandler(Logic.IPosition position, Logic.IBall ball)
         {
-            ModelBall newBall = new ModelBall(position.x, position.y, ball) { Diameter = 20.0 };
+            ModelBall newBall = new ModelBall(position.x, position.y, ball) { Diameter = this.diameter };
             BallChanged.Invoke(this, new BallChaneEventArgs() { Ball = newBall });
         }
 

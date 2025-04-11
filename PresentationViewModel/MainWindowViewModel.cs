@@ -29,9 +29,12 @@ namespace Presentation.ViewModel
         }
 
         #endregion Constructor
+        public void InitializeTableSettings(double width, double height, double diameter)
+        {
+            ModelLayer.InitializeTableSettings(width, height, diameter);
+        }
 
         #region Public API
-
         public ObservableCollection<ModelIBall> Balls { get; } = new ObservableCollection<ModelIBall>();
 
         private int _ballCount = 5;

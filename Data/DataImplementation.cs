@@ -9,7 +9,7 @@ namespace Data
 
         public DataImplementation()
         {
-            MoveTimer = new Timer(Move, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(200));
+            MoveTimer = new Timer(Move, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
         }
 
         #endregion ctor
@@ -71,7 +71,12 @@ namespace Data
         private void Move(object? x)
         {
             foreach (Ball item in BallsList)
-                item.Move(new Vector((RandomGenerator.NextDouble() - 0.5) * 10, (RandomGenerator.NextDouble() - 0.5) * 10));
+            {
+                double dx = (RandomGenerator.NextDouble() - 0.5) * 2;
+                double dy = (RandomGenerator.NextDouble() - 0.5) * 2;
+
+                item.Move(new Vector(dx, dy));
+            }
         }
 
         #endregion private

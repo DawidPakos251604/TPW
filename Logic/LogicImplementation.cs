@@ -7,6 +7,10 @@ namespace Logic
 {
     internal class LogicImplementation : LogicAbstractAPI
     {
+        private double tableWidth;
+        private double tableHeight;
+        private double diameter;
+
         #region ctor
 
         public LogicImplementation() : this(null)
@@ -27,6 +31,13 @@ namespace Logic
                 throw new ObjectDisposedException(nameof(LogicImplementation));
             layerBellow.Dispose();
             Disposed = true;
+        }
+
+        public override void InitializeLogicParameters(double width, double height, double diameter)
+        {
+            this.tableWidth = width;
+            this.tableHeight = height;
+            this.diameter = diameter;
         }
 
         public override void Start(int numberOfBalls, Action<IPosition, IBall> upperLayerHandler)

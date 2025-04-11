@@ -12,6 +12,8 @@ namespace Logic
 
         #endregion Layer Factory
 
+        public abstract void InitializeLogicParameters(double width, double height, double diameter);
+
         #region Layer API
 
         public static readonly Dimensions GetDimensions = new(50.0, 500.0, 500.0);

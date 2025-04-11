@@ -36,5 +36,7 @@ namespace Presentation.Model
         private static Lazy<ModelAbstractApi> modelInstance = new Lazy<ModelAbstractApi>(() => new ModelImplementation());
 
         #endregion private
+        public virtual void InitializeTableSettings(double width, double height, double diameter) { }
+
     }
 }
