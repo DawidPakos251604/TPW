@@ -46,7 +46,7 @@ namespace Logic
                 throw new ObjectDisposedException(nameof(LogicImplementation));
             if (upperLayerHandler == null)
                 throw new ArgumentNullException(nameof(upperLayerHandler));
-            layerBellow.Start(numberOfBalls, (startingPosition, databall) => upperLayerHandler(new Position(startingPosition.x, startingPosition.x), new Ball(databall)));
+            layerBellow.Start(numberOfBalls, (startingPosition, databall) => upperLayerHandler(new Position(startingPosition.x, startingPosition.x), new Ball(databall, tableWidth, tableHeight, diameter)));
         }
 
         #endregion BusinessLogicAbstractAPI

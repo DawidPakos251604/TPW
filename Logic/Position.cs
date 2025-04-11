@@ -18,5 +18,21 @@ namespace Logic
             x = posX;
             y = posY;
         }
+
+        public Position LimitPosition(double tableWidth, double tableHeight, double diameter)
+        {
+            double xLimited = x;
+            double yLimited = y;
+
+            // Ograniczenia dla lewego górnego rogu
+            if (x < 0) xLimited = 0;
+            if (y < 0) yLimited = 0;
+
+            // Ograniczenia dla prawej/dolnej krawędzi (x + średnica <= rozmiar stołu)
+            if (x > tableWidth - diameter) xLimited = tableWidth - diameter;
+            if (y > tableHeight - diameter) yLimited = tableHeight - diameter;
+
+            return new Position(xLimited, yLimited);
+        }
     }
 }

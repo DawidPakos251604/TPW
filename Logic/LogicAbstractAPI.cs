@@ -16,8 +16,6 @@ namespace Logic
 
         #region Layer API
 
-        public static readonly Dimensions GetDimensions = new(50.0, 500.0, 500.0);
-
         public abstract void Start(int numberOfBalls, Action<IPosition, IBall> upperLayerHandler);
 
         #region IDisposable
@@ -34,16 +32,6 @@ namespace Logic
 
         #endregion private
     }
-    /// <summary>
-    /// Immutable type representing table dimensions
-    /// </summary>
-    /// <param name="BallDimension"></param>
-    /// <param name="TableHeight"></param>
-    /// <param name="TableWidth"></param>
-    /// <remarks>
-    /// Must be abstract
-    /// </remarks>
-    public record Dimensions(double BallDimension, double TableHeight, double TableWidth);
 
     public interface IPosition
     {
