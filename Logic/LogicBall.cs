@@ -29,6 +29,14 @@ namespace Logic
             NewPositionNotification?.Invoke(this, position);
         }
 
+        public void UpdateTableSettings(double width, double height, double diameter)
+        {
+            _tableWidth = width;
+            _tableHeight = height;
+            _diameter = diameter;
+        }
+
+
         #endregion private
     }
 }
