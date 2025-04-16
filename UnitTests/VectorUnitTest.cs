@@ -11,7 +11,7 @@ namespace UnitTests
             Random randomGenerator = new();
             double XComponent = randomGenerator.NextDouble();
             double YComponent = randomGenerator.NextDouble();
-            Vector newInstance = new(XComponent, YComponent);
+            IVector newInstance = new Vector(XComponent, YComponent);
             Assert.AreEqual<double>(XComponent, newInstance.x);
             Assert.AreEqual<double>(YComponent, newInstance.y);
         }
