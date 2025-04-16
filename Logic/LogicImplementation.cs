@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 using UnderneathLayerAPI = Data.DataAbstractAPI;
@@ -10,6 +11,8 @@ namespace Logic
         private double tableWidth;
         private double tableHeight;
         private double diameter;
+
+        private readonly List<Ball> balls = new();
 
         #region ctor
 
@@ -38,6 +41,11 @@ namespace Logic
             this.tableWidth = width;
             this.tableHeight = height;
             this.diameter = diameter;
+
+            foreach (var ball in balls)
+            {
+                ball.UpdateTableSettings(tableWidth, tableHeight, diameter);
+            }
         }
 
         public override void Start(int numberOfBalls, Action<IPosition, IBall> upperLayerHandler)
@@ -46,15 +54,22 @@ namespace Logic
                 throw new ObjectDisposedException(nameof(LogicImplementation));
             if (upperLayerHandler == null)
                 throw new ArgumentNullException(nameof(upperLayerHandler));
-            layerBellow.Start(numberOfBalls, (startingPosition, databall) => upperLayerHandler(new Position(startingPosition.x, startingPosition.x), new Ball(databall, tableWidth, tableHeight, diameter)));
+
+            balls.Clear();
+
+            layerBellow.Start(numberOfBalls, (startingPosition, databall) =>
+            {
+                var logicBall = new Ball(databall, tableWidth, tableHeight, diameter);
+                balls.Add(logicBall);
+                upperLayerHandler(new Position(startingPosition.x, startingPosition.y), logicBall);
+            });
         }
 
-        #endregion BusinessLogicAbstractAPI
+        #endregion LogicAbstractAPI
 
         #region private
 
         private bool Disposed = false;
-
         private readonly UnderneathLayerAPI layerBellow;
 
         #endregion private

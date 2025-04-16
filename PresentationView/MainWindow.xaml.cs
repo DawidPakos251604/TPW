@@ -24,18 +24,33 @@ namespace PresentationView
             this.Loaded += MainWindow_Loaded;
         }
 
+        private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            double tableWidth = TableBorder.ActualWidth;
-            double tableHeight = TableBorder.ActualHeight;
-            double diameter = 50.0;
+            //double tableWidth = TableBorder.ActualWidth;
+            //double tableHeight = TableBorder.ActualHeight;
+            //double diameter = 50.0;
 
-            if (DataContext is MainWindowViewModel vm)
-            {
-                vm.InitializeTableSettings(tableWidth, tableHeight, diameter);
-            }
+            //if (DataContext is MainWindowViewModel vm)
+            //{
+            //    vm.InitializeTableSettings(tableWidth, tableHeight, diameter);
+            //}
 
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (TableBorder != null)
+            {
+                double newWidth = TableBorder.ActualWidth;
+                double newHeight = TableBorder.ActualHeight;
+                double diameter = 50.0;
+
+                ViewModel.InitializeTableSettings(newWidth, newHeight, diameter);
+            }
+        }
+
 
         /// <summary>
         /// Raises the <seealso cref="System.Windows.Window.Closed"/> event.

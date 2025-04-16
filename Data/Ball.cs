@@ -36,6 +36,8 @@ namespace Data
             RaiseNewPositionChangeNotification();
         }
 
+
+
         #endregion private
     }
 }
