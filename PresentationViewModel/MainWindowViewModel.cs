@@ -29,9 +29,9 @@ namespace Presentation.ViewModel
         }
 
         #endregion Constructor
-        public void InitializeTableSettings(double width, double height, double diameter)
+        public void InitializeTableSettings(double width, double height)
         {
-            ModelLayer.InitializeTableSettings(width, height, diameter);
+            ModelLayer.InitializeTableSettings(width, height);
         }
 
         #region Public API

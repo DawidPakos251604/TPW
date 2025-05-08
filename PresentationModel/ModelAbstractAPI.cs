@@ -8,6 +8,7 @@ namespace Presentation.Model
         double Top { get; }
         double Left { get; }
         double Diameter { get; }
+        double Weight { get; }
     }
 
     public abstract class ModelAbstractApi : IObservable<IBall>, IDisposable
@@ -36,7 +37,7 @@ namespace Presentation.Model
         private static Lazy<ModelAbstractApi> modelInstance = new Lazy<ModelAbstractApi>(() => new ModelImplementation());
 
         #endregion private
-        public virtual void InitializeTableSettings(double width, double height, double diameter) { }
+        public virtual void InitializeTableSettings(double width, double height) { }
 
     }
 }

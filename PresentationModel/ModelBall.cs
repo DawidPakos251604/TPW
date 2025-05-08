@@ -12,6 +12,8 @@ namespace Presentation.Model
         {
             TopBackingField = top;
             LeftBackingField = left;
+            Diameter = underneathBall.Diameter;
+            Weight = underneathBall.Weight;
             underneathBall.NewPositionNotification += NewPositionNotification;
         }
 
@@ -41,8 +43,6 @@ namespace Presentation.Model
             }
         }
 
-        public double Diameter { get; init; } = 0;
-
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -55,6 +55,9 @@ namespace Presentation.Model
 
         private double TopBackingField;
         private double LeftBackingField;
+
+        public double Diameter { get; init; }
+        public double Weight { get; init; }
 
         private void NewPositionNotification(object sender, IPosition e)
         {

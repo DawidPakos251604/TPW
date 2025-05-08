@@ -5,10 +5,12 @@ namespace Data
     {
         #region ctor
 
-        internal Ball(Vector initialPosition, Vector initialVelocity)
+        internal Ball(Vector initialPosition, Vector initialVelocity, double diameter, double weight)
         {
             Position = initialPosition;
             Velocity = initialVelocity;
+            Diameter = diameter;
+            Weight = weight;
         }
 
         #endregion ctor
@@ -18,6 +20,10 @@ namespace Data
         public event EventHandler<IVector>? NewPositionNotification;
 
         public IVector Velocity { get; set; }
+
+        public double Diameter { get; }
+
+        public double Weight { get; }
 
         #endregion IBall
 

@@ -21,23 +21,10 @@ namespace PresentationView
         public MainWindow()
         {
             InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
         }
 
         private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //double tableWidth = TableBorder.ActualWidth;
-            //double tableHeight = TableBorder.ActualHeight;
-            //double diameter = 50.0;
-
-            //if (DataContext is MainWindowViewModel vm)
-            //{
-            //    vm.InitializeTableSettings(tableWidth, tableHeight, diameter);
-            //}
-
-        }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -45,9 +32,8 @@ namespace PresentationView
             {
                 double newWidth = TableBorder.ActualWidth;
                 double newHeight = TableBorder.ActualHeight;
-                double diameter = 50.0;
 
-                ViewModel.InitializeTableSettings(newWidth, newHeight, diameter);
+                ViewModel.InitializeTableSettings(newWidth, newHeight);
             }
         }
 

@@ -12,7 +12,7 @@ namespace Logic
 
         #endregion Layer Factory
 
-        public abstract void InitializeLogicParameters(double width, double height, double diameter);
+        public abstract void InitializeLogicParameters(double width, double height);
 
         #region Layer API
 
@@ -42,5 +42,7 @@ namespace Logic
     public interface IBall
     {
         event EventHandler<IPosition> NewPositionNotification;
+        double Diameter { get; }
+        double Weight { get; }
     }
 }

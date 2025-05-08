@@ -10,7 +10,6 @@ namespace Logic
     {
         private double tableWidth;
         private double tableHeight;
-        private double diameter;
 
         private readonly List<Ball> balls = new();
 
@@ -36,15 +35,14 @@ namespace Logic
             Disposed = true;
         }
 
-        public override void InitializeLogicParameters(double width, double height, double diameter)
+        public override void InitializeLogicParameters(double width, double height)
         {
             this.tableWidth = width;
             this.tableHeight = height;
-            this.diameter = diameter;
 
             foreach (var ball in balls)
             {
-                ball.UpdateTableSettings(tableWidth, tableHeight, diameter);
+                ball.UpdateTableSettings(tableWidth, tableHeight);
             }
         }
 
@@ -59,7 +57,7 @@ namespace Logic
 
             layerBellow.Start(numberOfBalls, (startingPosition, databall) =>
             {
-                var logicBall = new Ball(databall, tableWidth, tableHeight, diameter);
+                var logicBall = new Ball(databall, tableWidth, tableHeight);
                 balls.Add(logicBall);
                 upperLayerHandler(new Position(startingPosition.x, startingPosition.y), logicBall);
             });

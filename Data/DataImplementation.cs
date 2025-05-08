@@ -26,7 +26,10 @@ namespace Data
             for (int i = 0; i < numberOfBalls; i++)
             {
                 Vector startingPosition = new(random.Next(100, 400 - 100), random.Next(100, 400 - 100));
-                Ball newBall = new(startingPosition, startingPosition);
+                Vector velocity = new(random.Next(10, 30), random.Next(10, 30));
+                double diameter = 50;
+                double weight = 5;
+                Ball newBall = new(startingPosition, velocity, diameter, weight);
                 upperLayerHandler(startingPosition, newBall);
                 BallsList.Add(newBall);
             }
