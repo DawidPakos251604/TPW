@@ -22,14 +22,38 @@ namespace Data
                 throw new ObjectDisposedException(nameof(DataImplementation));
             if (upperLayerHandler == null)
                 throw new ArgumentNullException(nameof(upperLayerHandler));
+
             Random random = new Random();
+            double minDistance = 30; // Minimalna odległość, aby uniknąć kolizji (średnica piłki + margines)
+
             for (int i = 0; i < numberOfBalls; i++)
             {
-                Vector startingPosition = new(random.Next(100, 400 - 100), random.Next(100, 400 - 100));
-                Vector velocity = new(random.Next(10, 30), random.Next(10, 30));
-                double diameter = 50;
+                Vector startingPosition = new Vector(0, 0); // Inicjalizacja zmiennej startingPosition
+                bool positionFound = false;
+
+                // Sprawdzanie kolizji z już istniejącymi piłkami
+                while (!positionFound)
+                {
+                    startingPosition = new Vector(random.Next(50, 350), random.Next(50, 300));
+
+                    // Sprawdzamy, czy nowa piłka nie koliduje z istniejącymi
+                    positionFound = true;
+                    foreach (Ball existingBall in BallsList)
+                    {
+                        double distance = Math.Sqrt(Math.Pow(startingPosition.x - existingBall.GetPosition().x, 2) + Math.Pow(startingPosition.y - existingBall.GetPosition().y, 2));
+                        if (distance < minDistance)  // Jeśli odległość jest mniejsza niż minimalna odległość, zmieniamy pozycję
+                        {
+                            positionFound = false;
+                            break;
+                        }
+                    }
+                }
+
+                Vector velocity = new Vector(random.Next(10, 30), random.Next(10, 30));
+                double diameter = 20;
                 double weight = 5;
-                Ball newBall = new(startingPosition, velocity, diameter, weight);
+                Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  // Teraz startingPosition jest zainicjalizowane
+
                 upperLayerHandler(startingPosition, newBall);
                 BallsList.Add(newBall);
             }

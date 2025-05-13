@@ -31,6 +31,11 @@ namespace Data
 
         private Vector Position;
 
+        public Vector GetPosition()
+        {
+            return Position;
+        }
+
         private void RaiseNewPositionChangeNotification()
         {
             NewPositionNotification?.Invoke(this, Position);
