@@ -24,11 +24,11 @@ namespace Data
                 throw new ArgumentNullException(nameof(upperLayerHandler));
 
             Random random = new Random();
-            double minDistance = 30; // Minimalna odległość, aby uniknąć kolizji (średnica piłki + margines)
+            double minDistance = 30; //średnica piłki + margines
 
             for (int i = 0; i < numberOfBalls; i++)
             {
-                Vector startingPosition = new Vector(0, 0); // Inicjalizacja zmiennej startingPosition
+                Vector startingPosition = new Vector(0, 0); 
                 bool positionFound = false;
 
                 // Sprawdzanie kolizji z już istniejącymi piłkami
@@ -36,7 +36,7 @@ namespace Data
                 {
                     startingPosition = new Vector(random.Next(50, 350), random.Next(50, 300));
 
-                    // Sprawdzamy, czy nowa piłka nie koliduje z istniejącymi
+                    //Czy nowa piłka nie koliduje z istniejącymi
                     positionFound = true;
                     foreach (Ball existingBall in BallsList)
                     {
@@ -52,7 +52,7 @@ namespace Data
                 Vector velocity = new Vector(random.Next(3, 5), random.Next(3, 5));
                 double diameter = 20;
                 double weight = 5;
-                Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  // Teraz startingPosition jest zainicjalizowane
+                Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  
 
                 upperLayerHandler(startingPosition, newBall);
                 BallsList.Add(newBall);
@@ -88,7 +88,6 @@ namespace Data
 
         #region private
 
-        //private bool disposedValue;
         private bool Disposed = false;
 
         private readonly Timer MoveTimer;

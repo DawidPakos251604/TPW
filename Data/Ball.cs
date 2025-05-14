@@ -54,7 +54,7 @@ namespace Data
         {
             lock (_positionLock)
             {
-                return new Vector(Position.x, Position.y); // kopiowanie, by nie udostępniać referencji
+                return new Vector(Position.x, Position.y); 
             }
         }
 

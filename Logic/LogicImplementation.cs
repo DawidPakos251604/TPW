@@ -31,7 +31,7 @@ namespace Logic
             HandleBallCollisions();
             foreach (var ball in balls)
             {
-                ball.Move(); // Przesuwa kulę i wykonuje odbicia od ścian
+                ball.Move(); 
             }
         }
 
@@ -71,7 +71,7 @@ namespace Logic
             var dy = p1.y - p2.y;
             var distance = Math.Sqrt(dx * dx + dy * dy);
 
-            if (distance == 0) return; // Avoid division by zero
+            if (distance == 0) return; 
 
             var nx = dx / distance;
             var ny = dy / distance;
@@ -80,7 +80,7 @@ namespace Logic
             var dvy = v1.y - v2.y;
 
             double dot = dvx * nx + dvy * ny;
-            if (dot > 0) return; // Already moving apart
+            if (dot > 0) return; 
 
             double m1 = b1.Weight;
             double m2 = b2.Weight;
@@ -120,7 +120,7 @@ namespace Logic
             {
                 foreach (var inner in ex.InnerExceptions)
                 {
-                    // Obsługa lub logowanie wewnętrznych wyjątków, np.:
+                    
                     Debug.WriteLine($"Game loop error: {inner.Message}");
                 }
             }

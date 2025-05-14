@@ -31,7 +31,7 @@ namespace Logic
         public void Move()
         {
             HandleWallCollision();
-            _dataBall.MoveStep(); // musisz mieć metodę `MoveStep()` w IBall/Data.Ball
+            _dataBall.MoveStep(); 
         }
 
         public void SetVelocity(IVector v)

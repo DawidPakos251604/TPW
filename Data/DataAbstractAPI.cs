@@ -49,8 +49,8 @@ namespace Data
         double Diameter { get; }
         double Weight { get; }
 
-        void MoveStep(); // używana przez warstwę Logika
-        void SetVelocity(IVector newVelocity); // pozwala na zmianę prędkości przez Logikę
+        void MoveStep(); 
+        void SetVelocity(IVector newVelocity); 
 
         IVector GetPosition();
     }
