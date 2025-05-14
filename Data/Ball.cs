@@ -25,15 +25,23 @@ namespace Data
 
         public double Weight { get; }
 
+        private readonly object _positionLock = new();
         public void MoveStep()
         {
-            Position = new Vector(Position.x + Velocity.x, Position.y + Velocity.y);
-            RaiseNewPositionChangeNotification();
+            lock (_positionLock)
+            {
+                Position = new Vector(Position.x + Velocity.x, Position.y + Velocity.y);
+                RaiseNewPositionChangeNotification();
+            }
         }
+
 
         public void SetVelocity(IVector newVelocity)
         {
-            Velocity = newVelocity;
+            lock (_positionLock)
+            {
+                Velocity = newVelocity;
+            }
         }
 
         #endregion IBall
@@ -42,13 +50,22 @@ namespace Data
 
         private Vector Position;
 
-        public IVector GetPosition() => Position;
+        public IVector GetPosition()
+        {
+            lock (_positionLock)
+            {
+                return new Vector(Position.x, Position.y); // kopiowanie, by nie udostępniać referencji
+            }
+        }
 
         private void RaiseNewPositionChangeNotification()
         {
-            NewPositionNotification?.Invoke(this, Position);
+            var handler = NewPositionNotification;
+            if (handler != null)
+            {
+                Task.Run(() => handler.Invoke(this, GetPosition()));
+            }
         }
-
         internal void Move(Vector delta)
         {
             Position = new Vector(Position.x + delta.x, Position.y + delta.y);

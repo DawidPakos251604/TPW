@@ -10,6 +10,9 @@ namespace Logic
     {
         private double tableWidth;
         private double tableHeight;
+        private CancellationTokenSource? _cts;
+        private Task? _gameLoopTask;
+
 
         private readonly List<Ball> balls = new();
 
@@ -20,6 +23,7 @@ namespace Logic
         public LogicImplementation() : this(null)
         {
             LogicTimer = new Timer(LogicTick, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
+
         }
 
         private void LogicTick(object? state)
@@ -105,9 +109,26 @@ namespace Logic
         {
             if (Disposed)
                 throw new ObjectDisposedException(nameof(LogicImplementation));
+
+            _cts?.Cancel();
+
+            try
+            {
+                _gameLoopTask?.Wait();
+            }
+            catch (AggregateException ex)
+            {
+                foreach (var inner in ex.InnerExceptions)
+                {
+                    // Obsługa lub logowanie wewnętrznych wyjątków, np.:
+                    Debug.WriteLine($"Game loop error: {inner.Message}");
+                }
+            }
+
             layerBellow.Dispose();
             Disposed = true;
         }
+
 
         public override void InitializeLogicParameters(double width, double height)
         {
@@ -119,6 +140,30 @@ namespace Logic
                 ball.UpdateTableSettings(tableWidth, tableHeight);
             }
         }
+
+        private void StartGameLoop()
+        {
+            _cts = new CancellationTokenSource();
+            CancellationToken token = _cts.Token;
+
+            _gameLoopTask = Task.Run(async () =>
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    lock (balls) // zabezpieczenie listy piłek
+                    {
+                        HandleBallCollisions();
+                        foreach (var ball in balls)
+                        {
+                            ball.Move();
+                        }
+                    }
+
+                    await Task.Delay(10, token); // 100 FPS
+                }
+            }, token);
+        }
+
 
         public override void Start(int numberOfBalls, Action<IPosition, IBall> upperLayerHandler)
         {
@@ -135,6 +180,8 @@ namespace Logic
                 balls.Add(logicBall);
                 upperLayerHandler(new Position(startingPosition.x, startingPosition.y), logicBall);
             });
+            StartGameLoop();
+
         }
 
         #endregion LogicAbstractAPI

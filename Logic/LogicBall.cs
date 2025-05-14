@@ -39,24 +39,29 @@ namespace Logic
             _dataBall.SetVelocity(v);
         }
 
+        private readonly object _collisionLock = new();
+
         private void HandleWallCollision()
         {
-            var velocity = _dataBall.Velocity;
-            var position = _dataBall.GetPosition();
+            lock (_collisionLock)
+            {
+                var velocity = _dataBall.Velocity;
+                var position = _dataBall.GetPosition();
 
-            double x = position.x;
-            double y = position.y;
-            double d = Diameter;
+                double x = position.x;
+                double y = position.y;
+                double d = Diameter;
 
-            double vx = velocity.x;
-            double vy = velocity.y;
+                double vx = velocity.x;
+                double vy = velocity.y;
 
-            if (x <= 0 || x + d >= _tableWidth)
-                vx = -vx;
-            if (y <= 0 || y + d >= _tableHeight)
-                vy = -vy;
+                if (x <= 0 || x + d >= _tableWidth)
+                    vx = -vx;
+                if (y <= 0 || y + d >= _tableHeight)
+                    vy = -vy;
 
-            _dataBall.SetVelocity(new Vector(vx, vy));
+                _dataBall.SetVelocity(new Vector(vx, vy));
+            }
         }
 
         private void RaisePositionChangeEvent(object? sender, IVector e)
