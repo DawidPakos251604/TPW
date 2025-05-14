@@ -25,16 +25,24 @@ namespace Data
 
         public double Weight { get; }
 
+        public void MoveStep()
+        {
+            Position = new Vector(Position.x + Velocity.x, Position.y + Velocity.y);
+            RaiseNewPositionChangeNotification();
+        }
+
+        public void SetVelocity(IVector newVelocity)
+        {
+            Velocity = newVelocity;
+        }
+
         #endregion IBall
 
         #region private
 
         private Vector Position;
 
-        public Vector GetPosition()
-        {
-            return Position;
-        }
+        public IVector GetPosition() => Position;
 
         private void RaiseNewPositionChangeNotification()
         {

@@ -49,7 +49,7 @@ namespace Data
                     }
                 }
 
-                Vector velocity = new Vector(random.Next(10, 30), random.Next(10, 30));
+                Vector velocity = new Vector(random.Next(3, 5), random.Next(3, 5));
                 double diameter = 20;
                 double weight = 5;
                 Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  // Teraz startingPosition jest zainicjalizowane

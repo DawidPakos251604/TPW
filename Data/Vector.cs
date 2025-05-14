@@ -2,7 +2,7 @@
 namespace Data
 {
     ///  Two dimensions immutable vector
-    internal record Vector : IVector
+    public record Vector : IVector
     {
         #region IVector
 
