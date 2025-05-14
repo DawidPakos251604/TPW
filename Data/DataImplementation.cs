@@ -8,9 +8,7 @@ namespace Data
         #region ctor
 
         public DataImplementation()
-        {
-            MoveTimer = new Timer(Move, null, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
-        }
+        {}
 
         #endregion ctor
 
@@ -49,7 +47,7 @@ namespace Data
                     }
                 }
 
-                Vector velocity = new Vector(random.Next(3, 5), random.Next(3, 5));
+                Vector velocity = new Vector(random.Next(1, 3), random.Next(1, 3));
                 double diameter = 20;
                 double weight = 5;
                 Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  
@@ -69,7 +67,6 @@ namespace Data
             {
                 if (disposing)
                 {
-                    MoveTimer.Dispose();
                     BallsList.Clear();
                 }
                 Disposed = true;
@@ -90,20 +87,7 @@ namespace Data
 
         private bool Disposed = false;
 
-        private readonly Timer MoveTimer;
-        private Random RandomGenerator = new();
         private List<Ball> BallsList = [];
-
-        private void Move(object? x)
-        {
-            foreach (Ball item in BallsList)
-            {
-                double dx = (RandomGenerator.NextDouble() - 0.5) * 2;
-                double dy = (RandomGenerator.NextDouble() - 0.5) * 2;
-
-                item.Move(new Vector(dx, dy));
-            }
-        }
 
         #endregion private
 

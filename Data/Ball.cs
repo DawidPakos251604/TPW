@@ -35,7 +35,6 @@ namespace Data
             }
         }
 
-
         public void SetVelocity(IVector newVelocity)
         {
             lock (_positionLock)
@@ -46,17 +45,17 @@ namespace Data
 
         #endregion IBall
 
-        #region private
-
-        private Vector Position;
-
         public IVector GetPosition()
         {
             lock (_positionLock)
             {
-                return new Vector(Position.x, Position.y); 
+                return new Vector(Position.x, Position.y);
             }
         }
+
+        #region private
+
+        private Vector Position;
 
         private void RaiseNewPositionChangeNotification()
         {
@@ -66,14 +65,6 @@ namespace Data
                 Task.Run(() => handler.Invoke(this, GetPosition()));
             }
         }
-        internal void Move(Vector delta)
-        {
-            Position = new Vector(Position.x + delta.x, Position.y + delta.y);
-            RaiseNewPositionChangeNotification();
-        }
-
-
-
         #endregion private
     }
 }
