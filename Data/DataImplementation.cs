@@ -22,7 +22,7 @@ namespace Data
                 throw new ArgumentNullException(nameof(upperLayerHandler));
 
             Random random = new Random();
-            double minDistance = 30; //średnica piłki + margines
+            double minDistance = 50; //średnica piłki + margines
 
             for (int i = 0; i < numberOfBalls; i++)
             {
@@ -48,8 +48,8 @@ namespace Data
                 }
 
                 Vector velocity = new Vector(random.Next(1, 3), random.Next(1, 3));
-                double diameter = 20;
-                double weight = 5;
+                double weight = random.Next(5, 10);
+                double diameter = 4 * weight;
                 Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  
 
                 upperLayerHandler(startingPosition, newBall);
