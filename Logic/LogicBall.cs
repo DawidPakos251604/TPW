@@ -28,10 +28,10 @@ namespace Logic
 
         public IVector Velocity => _dataBall.Velocity;
 
-        public void Move()
+        public void Move(double deltaTime)
         {
             HandleWallCollision();
-            _dataBall.MoveStep(); 
+            _dataBall.MoveStep(deltaTime);
         }
 
         public void SetVelocity(IVector v)

@@ -47,7 +47,7 @@ namespace Data
                     }
                 }
 
-                Vector velocity = new Vector(random.Next(1, 3), random.Next(1, 3));
+                Vector velocity = new Vector(random.Next(100, 200), random.Next(100, 200));
                 double weight = random.Next(5, 10);
                 double diameter = 4 * weight;
                 Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  

@@ -13,6 +13,8 @@ namespace Logic
         private CancellationTokenSource? _cts;
         private Task? _gameLoopTask;
 
+        private Stopwatch _stopwatch = Stopwatch.StartNew();
+
 
         private readonly List<Ball> balls = new();
 
@@ -28,10 +30,16 @@ namespace Logic
 
         private void LogicTick(object? state)
         {
-            HandleBallCollisions();
-            foreach (var ball in balls)
+            var elapsed = _stopwatch.Elapsed.TotalSeconds;
+            _stopwatch.Restart();
+
+            lock (balls)
             {
-                ball.Move(); 
+                HandleBallCollisions();
+                foreach (var ball in balls)
+                {
+                    ball.Move(elapsed);
+                }
             }
         }
 
@@ -152,10 +160,13 @@ namespace Logic
                 {
                     lock (balls) // zabezpieczenie listy piłek
                     {
+                        var elapsed = _stopwatch.Elapsed.TotalSeconds;
+                        _stopwatch.Restart();
+
                         HandleBallCollisions();
                         foreach (var ball in balls)
                         {
-                            ball.Move();
+                            ball.Move(elapsed);
                         }
                     }
 

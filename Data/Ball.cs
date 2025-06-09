@@ -26,11 +26,15 @@ namespace Data
         public double Weight { get; }
 
         private readonly object _positionLock = new();
-        public void MoveStep()
+        public void MoveStep(double deltaTime)
         {
             lock (_positionLock)
             {
-                Position = new Vector(Position.x + Velocity.x, Position.y + Velocity.y);
+                // Ruch zależny od czasu
+                Position = new Vector(
+                    Position.x + Velocity.x * deltaTime,
+                    Position.y + Velocity.y * deltaTime
+                );
                 RaiseNewPositionChangeNotification();
             }
         }

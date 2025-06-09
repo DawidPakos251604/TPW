@@ -49,7 +49,7 @@ namespace Data
         double Diameter { get; }
         double Weight { get; }
 
-        void MoveStep(); 
+        void MoveStep(double deltaTime); 
         void SetVelocity(IVector newVelocity); 
 
         IVector GetPosition();
