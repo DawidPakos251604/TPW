@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Data
@@ -8,11 +9,22 @@ namespace Data
         #region ctor
 
         public DataImplementation()
-        {}
+        {
+            // inicjalizacja loggera z katalogiem i nazwą pliku
+            string logFolder = @"C:\Logs2";
+            string baseLogFileName = System.IO.Path.Combine(logFolder, "diagnostics_log.txt");
+            _logger = new DiagnosticsLogger(baseLogFileName);
+        }
 
         #endregion ctor
 
         #region DataAbstractAPI
+
+        private readonly DiagnosticsLogger _logger;
+
+        // Słownik przechowujący czas ostatniego logowania dla każdej piłki
+        private readonly Dictionary<IBall, DateTime> _lastLoggedTimes = new();
+        private readonly object _logLock = new();
 
         public override void Start(int numberOfBalls, Action<IVector, IBall> upperLayerHandler)
         {
@@ -22,11 +34,11 @@ namespace Data
                 throw new ArgumentNullException(nameof(upperLayerHandler));
 
             Random random = new Random();
-            double minDistance = 50; //średnica piłki + margines
+            double minDistance = 50; // średnica piłki + margines
 
             for (int i = 0; i < numberOfBalls; i++)
             {
-                Vector startingPosition = new Vector(0, 0); 
+                Vector startingPosition = new Vector(0, 0);
                 bool positionFound = false;
 
                 // Sprawdzanie kolizji z już istniejącymi piłkami
@@ -34,12 +46,12 @@ namespace Data
                 {
                     startingPosition = new Vector(random.Next(50, 350), random.Next(50, 300));
 
-                    //Czy nowa piłka nie koliduje z istniejącymi
                     positionFound = true;
                     foreach (Ball existingBall in BallsList)
                     {
-                        double distance = Math.Sqrt(Math.Pow(startingPosition.x - existingBall.GetPosition().x, 2) + Math.Pow(startingPosition.y - existingBall.GetPosition().y, 2));
-                        if (distance < minDistance)  // Jeśli odległość jest mniejsza niż minimalna odległość, zmieniamy pozycję
+                        double distance = Math.Sqrt(Math.Pow(startingPosition.x - existingBall.GetPosition().x, 2) +
+                                                    Math.Pow(startingPosition.y - existingBall.GetPosition().y, 2));
+                        if (distance < minDistance)  // kolizja - szukaj innej pozycji
                         {
                             positionFound = false;
                             break;
@@ -47,10 +59,32 @@ namespace Data
                     }
                 }
 
-                Vector velocity = new Vector(random.Next(100, 200), random.Next(100, 200));
+                Vector velocity = new Vector(random.Next(50, 100), random.Next(50, 100));
                 double weight = random.Next(5, 10);
                 double diameter = 4 * weight;
-                Ball newBall = new Ball(startingPosition, velocity, diameter, weight);  
+                Ball newBall = new Ball(startingPosition, velocity, diameter, weight);
+
+                // Podpinamy event powiadomień pozycji piłki do loggera z throttlingiem
+                newBall.NewPositionNotification += (sender, position) =>
+                {
+                    if (sender is IBall ball)
+                    {
+                        var now = DateTime.UtcNow;
+
+                        lock (_logLock)
+                        {
+                            if (_lastLoggedTimes.TryGetValue(ball, out var lastTime))
+                            {
+                                if ((now - lastTime) < TimeSpan.FromMilliseconds(500))
+                                    return; // za wcześnie, pomijamy log
+                            }
+
+                            _lastLoggedTimes[ball] = now;
+                        }
+
+                        _logger.LogBallState(ball, position, ball.Velocity);
+                    }
+                };
 
                 upperLayerHandler(startingPosition, newBall);
                 BallsList.Add(newBall);
@@ -68,11 +102,14 @@ namespace Data
                 if (disposing)
                 {
                     BallsList.Clear();
+                    lock (_logLock)
+                    {
+                        _lastLoggedTimes.Clear();
+                    }
+                    _logger.Dispose();
                 }
                 Disposed = true;
             }
-            else
-                throw new ObjectDisposedException(nameof(DataImplementation));
         }
 
         public override void Dispose()
@@ -86,8 +123,7 @@ namespace Data
         #region private
 
         private bool Disposed = false;
-
-        private List<Ball> BallsList = [];
+        private readonly List<Ball> BallsList = new();
 
         #endregion private
 
