@@ -27,13 +27,28 @@ namespace Data
             _writer = new StreamWriter(fullName, append: false, encoding: Encoding.ASCII);
             _loggingTask = Task.Run(() => ProcessLogQueue(_cts.Token));
         }
-        public void LogBallState(IBall ball, IVector position, IVector velocity)
+        //public void LogBallState(IBall ball, IVector position, IVector velocity)
+        //{
+        //    string message = $"[{DateTime.Now:HH:mm:ss.fff}] Ball ID={ball.GetHashCode()}, " +
+        //                     $"Pos=({position.x.ToString("F2", CultureInfo.InvariantCulture)},{position.y.ToString("F2", CultureInfo.InvariantCulture)}), " +
+        //                     $"Vel=({velocity.x.ToString("F2", CultureInfo.InvariantCulture)},{velocity.y.ToString("F2", CultureInfo.InvariantCulture)})";
+        //    Log(message);
+        //}
+
+        public void LogWallCollision(IBall ball, IVector position, string wall)
         {
-            string message = $"[{DateTime.Now:HH:mm:ss.fff}] Ball ID={ball.GetHashCode()}, " +
-                             $"Pos=({position.x.ToString("F2", CultureInfo.InvariantCulture)},{position.y.ToString("F2", CultureInfo.InvariantCulture)}), " +
-                             $"Vel=({velocity.x.ToString("F2", CultureInfo.InvariantCulture)},{velocity.y.ToString("F2", CultureInfo.InvariantCulture)})";
-            Log(message);
+            string logEntry = $"[{DateTime.UtcNow:O}] WALL COLLISION - Ball ID: {ball.GetHashCode()}, " +
+                              $"Wall: {wall}, Position: ({position.x:F2}, {position.y:F2})";
+            Log(logEntry);
         }
+
+        public void LogBallCollision(IBall b1, IBall b2, IVector position)
+        {
+            string logEntry = $"[{DateTime.UtcNow:O}] BALL COLLISION - Ball1 ID: {b1.GetHashCode()}, Ball2 ID: {b2.GetHashCode()}, " +
+                              $"Position: ({position.x:F2}, {position.y:F2})";
+            Log(logEntry);
+        }
+
 
         private void Log(string logEntry)
         {

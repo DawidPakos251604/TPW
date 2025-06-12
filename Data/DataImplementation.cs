@@ -16,6 +16,8 @@ namespace Data
             _logger = new DiagnosticsLogger(baseLogFileName);
         }
 
+
+
         #endregion ctor
 
         #region DataAbstractAPI
@@ -64,6 +66,18 @@ namespace Data
                 double diameter = 4 * weight;
                 Ball newBall = new Ball(startingPosition, velocity, diameter, weight);
 
+
+                newBall.WallCollisionDetected += (ball, wall) =>
+                {
+                    _logger.LogWallCollision(ball, ball.GetPosition(), wall);
+                };
+
+                newBall.BallCollisionDetected += (ball, otherBall) =>
+                {
+                    _logger.LogBallCollision(ball, otherBall, ball.GetPosition());
+                };
+
+
                 // Podpinamy event powiadomień pozycji piłki do loggera z throttlingiem
                 newBall.NewPositionNotification += (sender, position) =>
                 {
@@ -82,7 +96,8 @@ namespace Data
                             _lastLoggedTimes[ball] = now;
                         }
 
-                        _logger.LogBallState(ball, position, ball.Velocity);
+                        //_logger.LogBallState(ball, position, ball.Velocity);
+                        
                     }
                 };
 

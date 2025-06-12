@@ -50,7 +50,12 @@ namespace Data
         double Weight { get; }
 
         void MoveStep(double deltaTime); 
-        void SetVelocity(IVector newVelocity); 
+        void SetVelocity(IVector newVelocity);
+
+        void SetPosition(IVector newPosition);
+
+        void NotifyWallCollision(string wall);
+        void NotifyBallCollision(IBall otherBall);
 
         IVector GetPosition();
     }

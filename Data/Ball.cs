@@ -13,6 +13,19 @@ namespace Data
             Weight = weight;
         }
 
+        public event Action<IBall, string>? WallCollisionDetected;
+        public event Action<IBall, IBall>? BallCollisionDetected;
+
+        public void NotifyWallCollision(string wall)
+        {
+            WallCollisionDetected?.Invoke(this, wall);
+        }
+
+        public void NotifyBallCollision(IBall otherBall)
+        {
+            BallCollisionDetected?.Invoke(this, otherBall);
+        }
+
         #endregion ctor
 
         #region IBall
@@ -44,6 +57,14 @@ namespace Data
             lock (_positionLock)
             {
                 Velocity = newVelocity;
+            }
+        }
+
+        public void SetPosition(IVector newPosition)
+        {
+            lock (_positionLock)
+            {
+                Position = new Vector(newPosition.x, newPosition.y);
             }
         }
 

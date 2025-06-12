@@ -21,6 +21,13 @@ namespace Logic
         public double Diameter => _dataBall.Diameter;
         public double Weight => _dataBall.Weight;
 
+        internal void NotifyBallCollision(Logic.Ball otherBall)
+        {
+         
+            _dataBall.NotifyBallCollision(otherBall._dataBall);
+        }
+
+
         public IPosition CurrentPosition => new Position(
            _dataBall.GetPosition().x,
            _dataBall.GetPosition().y
@@ -48,6 +55,8 @@ namespace Logic
                 var velocity = _dataBall.Velocity;
                 var position = _dataBall.GetPosition();
 
+             
+
                 double x = position.x;
                 double y = position.y;
                 double d = Diameter;
@@ -55,10 +64,31 @@ namespace Logic
                 double vx = velocity.x;
                 double vy = velocity.y;
 
-                if (x <= 0 || x + d >= _tableWidth)
-                    vx = -vx;
-                if (y <= 0 || y + d >= _tableHeight)
-                    vy = -vy;
+                if (x <= 0)
+                {
+                    vx = Math.Abs(vx);
+                    _dataBall.SetPosition(new Data.Vector(0, y));
+                    _dataBall.NotifyWallCollision("Left");
+                }
+                else if (x + d >= _tableWidth)
+                {
+                    vx = -Math.Abs(vx);
+                    _dataBall.SetPosition(new Data.Vector(_tableWidth - d, y));
+                    _dataBall.NotifyWallCollision("Right");
+                }
+
+                if (y <= 0)
+                {
+                    vy = Math.Abs(vy);
+                    _dataBall.SetPosition(new Data.Vector(x, 0));
+                    _dataBall.NotifyWallCollision("Top");
+                }
+                else if (y + d >= _tableHeight)
+                {
+                    vy = -Math.Abs(vy);
+                    _dataBall.SetPosition(new Data.Vector(x, _tableHeight - d));
+                    _dataBall.NotifyWallCollision("Bottom");
+                }
 
                 _dataBall.SetVelocity(new Vector(vx, vy));
             }

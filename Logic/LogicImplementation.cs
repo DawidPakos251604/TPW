@@ -63,6 +63,7 @@ namespace Logic
                     if (distanceSq < radiusSum * radiusSum)
                     {
                         ResolveElasticCollision(b1, b2);
+                        b1.NotifyBallCollision(b2);
                     }
                 }
             }
@@ -79,7 +80,7 @@ namespace Logic
             var dy = p1.y - p2.y;
             var distance = Math.Sqrt(dx * dx + dy * dy);
 
-            if (distance == 0) return; 
+            if (distance == 0) return; // unikanie dzielenia przez zero
 
             var nx = dx / distance;
             var ny = dy / distance;
@@ -88,7 +89,7 @@ namespace Logic
             var dvy = v1.y - v2.y;
 
             double dot = dvx * nx + dvy * ny;
-            if (dot > 0) return; 
+            if (dot > 0) return; // piłki oddalają się - brak reakcji
 
             double m1 = b1.Weight;
             double m2 = b2.Weight;
